@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Kompose
-        run: curl -L https://github.com/kubernetes/kompose/releases/download/v1.38.0/kompose-linux-amd64 -o kompose
+        run: |
+          curl -L https://github.com/kubernetes/kompose/releases/download/v1.38.0/kompose-linux-amd64 -o kompose
+          chmod +x kompose
+          sudo mv kompose /usr/local/bin/kompose
 
       - uses: actions/checkout@v4
       - name: Convert Docker compose into Kubernetes
-        run: act kompose --file compose.yaml convert
+        run: kompose convert -f compose.yaml
+        
