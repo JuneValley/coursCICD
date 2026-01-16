@@ -10,15 +10,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Installation de Kompose
       - name: Install Kompose
         run: |
           curl -L https://github.com/kubernetes/kompose/releases/download/v1.38.0/kompose-linux-amd64 -o kompose
           chmod +x kompose
           sudo mv kompose /usr/local/bin/kompose
 
+      # Conversion du docker compose
       - uses: actions/checkout@v4
       - name: Convert Docker compose into Kubernetes
         run: kompose convert -f compose.yaml
 
       # Commit des ressources sur le repo
       - uses: stefanzweifel/git-auto-commit-action@v4
+
+      # Zip du repo
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r ValletJulesWordpress.zip dir
+
+      # Commit du zip sur le repo
+      - uses: stefanzweifel/git-auto-commit-action@v4
+
+      # Envoi du zip sur le serveur FTP
+      - name: Upload file
+        uses: tomasbkk/action-ftp-upload@v1.0
+        with:
+          user: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          host: ${{ secrets.FTP_HOST }}
+          src: ValletJulesWordpress.zip
+          dest: ValletJulesWordpress.zip
