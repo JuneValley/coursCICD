@@ -41,4 +41,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           host: ${{ secrets.FTP_HOST }}
           src: ValletJulesWordpress.zip
-          dest: ValletJulesWordpress.zip
+          dest: /RenduDevopsKube/ValletJulesWordpress.zip
