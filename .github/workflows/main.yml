@@ -3,8 +3,8 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    paths-ignore:
+    - "ValletJulesWordpress.zip"
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
       # Zip du repo
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r ValletJulesWordpress.zip dir
+          args: zip -qq -r ValletJulesWordpress.zip .
 
       # Commit du zip sur le repo
       - uses: stefanzweifel/git-auto-commit-action@v4
