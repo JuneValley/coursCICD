@@ -3,7 +3,7 @@ version: "3.9"
 services:
   wordpress:
     image: wordpress:6
-    container_name: wordpress
+    container_name: wordpresss
     ports:
       - "80:80"
     environment:
